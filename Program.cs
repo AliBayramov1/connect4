@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
+/// <summary>
+/// Represents a Connect Four game with player vs bot
+/// </summary>
 class Game
 {
     const int ROWS = 6;
@@ -11,6 +14,10 @@ class Game
     int turn;
     public bool game_over;
 
+    /// <summary>
+    /// Initializes a new Connect Four game
+    /// Sets up a 6x7 board, assigns player 1 as the starting player, and sets game over to false
+    /// </summary>
     public Game()
     {
         board = new int[ROWS, COLS];
@@ -18,6 +25,9 @@ class Game
         game_over = false;
     }
 
+    /// <summary>
+    /// Displays the current biard state
+    /// </summary>
     public void print_board()
     {
         Console.WriteLine();
@@ -41,11 +51,22 @@ class Game
         Console.WriteLine();
     }
 
+    /// <summary>
+    /// Checks if column is valid for a move
+    /// A column is valid if the top row is empty
+    /// </summary>
+    /// <param name="col">Column index (0-6)</param>
+    /// <returns>True if token can be placed, false otherwise</returns>
     public bool is_valid(int col)
     {
         return board[0, col] == 0;
     }
 
+    /// <summary>
+    /// Finds the lowest available row in a given column
+    /// </summary>
+    /// <param name="col">Column index</param>
+    /// <returns>The row index where token will land, or -1 if full</returns>
     public int get_closest_row(int col)
     {
         for (int i = ROWS - 1; i >= 0; i--)
@@ -59,11 +80,23 @@ class Game
         return -1;
     }
 
+    /// <summary>
+    /// Places a token for a player at a specific position
+    /// </summary>
+    /// <param name="row">Row index</param>
+    /// <param name="col">Column index</param>
+    /// <param name="player">Player ID (1 - player, 2 - bot)</param>
     public void place_token(int row, int col, int player)
     {
         board[row, col] = player;
     }
 
+    /// <summary>
+    /// Simulates move for bot without modifying game state
+    /// </summary>
+    /// <param name="col">Column indec</param>
+    /// <param name="player">Player making the move</param>
+    /// <returns>The row where the token was placed</returns>
     public int make_move(int col, int player)
     {
         int row = get_closest_row(col);
@@ -76,6 +109,11 @@ class Game
         return row;
     }
 
+    /// <summary>
+    /// Undoes a previously simulated move
+    /// </summary>
+    /// <param name="row">Row index of removed token</param>
+    /// <param name="col">Column index</param>
     public void unmove(int row, int col)
     {
         board[row, col] = 0;
@@ -101,6 +139,13 @@ class Game
         return count;
     }
 
+    /// <summary>
+    /// Checks if placing a token results in a win
+    /// </summary>
+    /// <param name="row">Row index of last move</param>
+    /// <param name="col">Column index</param>
+    /// <param name="player">Plaer ID</param>
+    /// <returns>True if player has four in a row, false otherwise</returns>
     public bool winning_token(int row, int col, int player)
     {
         if (Count(row, col, 0, 1, player) +
@@ -122,6 +167,10 @@ class Game
         return false;
     }
 
+    /// <summary>
+    /// Determines winner of the game
+    /// </summary>
+    /// <returns>0 if no winner, 1 if player wins, 2 if bot wins</returns>
     public int winner()
     {
         for (int row = 0; row < ROWS; row++)
@@ -141,6 +190,10 @@ class Game
         return 0;
     }
 
+    /// <summary>
+    /// Checks if the board is full
+    /// </summary>
+    /// <returns>True if there are no valid moves, false otherwise</returns>
     public bool is_full()
     {
         for (int col = 0; col < COLS; col++)
@@ -152,6 +205,10 @@ class Game
         return true;
     }
 
+    /// <summary>
+    /// Generates a list of all valid moves
+    /// </summary>
+    /// <returns>Playable column indices</returns>
     public List<int> possible_moves()
     {
         List<int> moves = new List<int>();
@@ -170,6 +227,11 @@ class Game
         return moves;
     }
 
+    /// <summary>
+    /// Evaluates a set of four consecutive cells for the bot
+    /// </summary>
+    /// <param name="window">Array of 4 board positions</param>
+    /// <returns>A score representing position strength</returns>
     private int evaluate_window(int[] window)
     {
         int score = 0;
@@ -207,6 +269,10 @@ class Game
         return score;
     }
 
+    /// <summary>
+    /// Computes a score of the curret board state
+    /// </summary>
+    /// <returns>A score where positive value is better for bot</returns>
     public double eval()
     {
         int score = 0;
@@ -284,6 +350,13 @@ class Game
         return score;
     }
 
+    /// <summary>
+    /// Performs minimax search with alpha-beta pruning to determine the best move
+    /// </summary>
+    /// <param name="depth">Current recursion depth</param>
+    /// <param name="alpha">Bets score for maximizer</param>
+    /// <param name="beta">Best score for minimizer</param>
+    /// <returns>Tuple containing: best evaluation score, best column move</returns>
     public (double, int) minimax(
         int depth,
         double alpha,
@@ -372,6 +445,10 @@ class Game
         }
     }
 
+    /// <summary>
+    /// Executes a single turn in the game
+    /// Handles player input , bot decision, board update, and win/draw detection
+    /// </summary>
     public void move()
     {
         int choice;
@@ -473,8 +550,14 @@ class Game
     }
 }
 
+/// <summary>
+/// Initializes the game and runs the main game loop until completion
+/// </summary>
 class Project
 {
+    /// <summary>
+    /// Main method that starts the Connect Four game
+    /// </summary>
     static void Main()
     {
         Game game = new Game();
