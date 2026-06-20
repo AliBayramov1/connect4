@@ -4,14 +4,14 @@ using System.Collections.Generic;
 /// <summary>
 /// Represents a Connect Four game with player vs bot
 /// </summary>
-class Game
+public class Game
 {
     const int ROWS = 6;
     const int COLS = 7;
     const int MAX_DEPTH = 7;
 
     public int[,] board;
-    int turn;
+    public int turn;
     public bool game_over;
 
     /// <summary>
