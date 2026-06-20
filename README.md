@@ -17,14 +17,19 @@ dotnet run
 
 ## Bot details
 ### Minimax search
-- Explores possible future moves
+**Function: (double, int) minimax(int depth, double alpha, double beta)**
+- Recursively simulates the decision tree up to a maximum depth
 ### Alpha-Beta Pruning
-- Reduces unnecessary branches in the search tree
-- Improves performance
+**Function: (double, int) minimax(int depth, double alpha, double beta)**
+- To avoid examining every single branch in the tree, algorithm keeps track of two values: alpha, beta
+- Significantly Improves performance
 ### Evaluation
-- Center column preference
-- 2 in a row and 3 in a row patterns
-- Blocking threats
+**Function: List<int> possible_moves()**
+- Creates a priority for center column while checking valid moves
+
+**Function: private int evaluate_window(int[] window)**
+- scans the board horizontally, vertically, and diagonally
+- Each window is assigned a strategic weight
 
 
 ## Game Rules
